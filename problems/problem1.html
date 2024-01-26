@@ -29,9 +29,9 @@
     engine.toggle_mesh_object_wireframe_visibility(0);
 
     let settings = {
-        mesh_visible: false,
+        mesh_visible: true,
         draw_points: true,
-        wireframe_visible: false,
+        wireframe_visible: true,
         point_size: 0.02,
         m00: 1.0,
         m01: 0.0,
@@ -113,8 +113,12 @@
         // todo: after you implement the multiply_3x3_matrix_and_3x1_vector function above, uncomment these lines (by deleting the /* and */) to see the transformation in action -->
 
         /*
-        let new_standard_points = standard_points.map(point => mul_matrix_matrix(m, point));
-        let new_wireframe_points = wireframe_points.map(point => mul_matrix_matrix(m, point));
+        // These two lines iterate through all points in the scene and apply your result from multiply_3x3_matrix_and_3x1_vector function -->
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        let new_standard_points = standard_points.map(point => multiply_3x3_matrix_and_3x1_vector(m, point));
+        let new_wireframe_points = wireframe_points.map(point => multiply_3x3_matrix_and_3x1_vector(m, point));
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         engine.update_vertex_positions_of_mesh_object(0, new_standard_points);
         engine.update_vertex_positions_of_mesh_object_wireframe(0, new_wireframe_points);
 
