@@ -35,6 +35,7 @@ export class ThreeEngine {
         this.gizmo_controller_objects = [];
         this.gizmo_controllers = [];
         this.frame_idx = 0;
+        this.clock = new THREE.Clock();
         threejs_responsive_canvas(this.camera, this.renderer);
     }
 
@@ -420,7 +421,7 @@ export class ThreeEngine {
     }
 
     draw_debug_vector(start_point, end_point, tail_width = 0.01, arrow_height = 0.15, color=0x0000ff, opacity=1.0) {
-        let a = convert_array_to_threejs_vector3(unroll_matrix_to_list(start_point));
+        let a = convert_array_to_threejs_vector3(convert_2array_to_3array(unroll_matrix_to_list(start_point)));
         let b = convert_array_to_threejs_vector3(unroll_matrix_to_list(end_point));
         let dis = a.distanceTo(b);
         let ah = arrow_height;
@@ -430,8 +431,8 @@ export class ThreeEngine {
         let e = convert_threejs_vector3_to_array(d);
         let f = b.add(c.clone().multiplyScalar(ah/20));
         let g = convert_threejs_vector3_to_array(f);
-        this.draw_debug_line(start_point, g, undefined, tail_width, color, opacity);
-        this.draw_debug_cone(e, end_point, tail_width*3, color, opacity);
+        this.draw_debug_line(convert_2array_to_3array(unroll_matrix_to_list(start_point)), g, undefined, tail_width, color, opacity);
+        this.draw_debug_cone(e, convert_2array_to_3array(unroll_matrix_to_list(end_point)), tail_width*3, color, opacity);
     }
 
     spawn_parametric_geometry(parametric_geometry_object, slices=100, stacks=100, color=0x0000ff, opacity=1.0) {
@@ -537,6 +538,14 @@ export class ThreeEngine {
     positionAttribute.needsUpdate = true;
 }
 */
+
+    get_time_elapsed() {
+        return this.clock.getElapsedTime()
+    }
+
+    get_delta_time_from_last_frame() {
+        return this.clock.getDelta();
+    }
 
     animation_loop(f) {
         const loop = () => {
@@ -717,9 +726,9 @@ export function spawn_line_specific(scene, start_point, end_point, render_throug
 }
 
 export function set_line_specific(line_specific, start_point, end_point, render_through_other_objects=false, width=0.01, color=0x0000ff, opacity=1.0) {
-    let y_up_end_point = convert_z_up_array_to_y_up_array(unroll_matrix_to_list(end_point));
-    let a = unroll_matrix_to_list(start_point);
-    let b = unroll_matrix_to_list(end_point);
+    let y_up_end_point = convert_z_up_array_to_y_up_array(convert_2array_to_3array(unroll_matrix_to_list(end_point)));
+    let a = convert_2array_to_3array(unroll_matrix_to_list(start_point));
+    let b = convert_2array_to_3array(unroll_matrix_to_list(end_point));
 
     let a_vec = new THREE.Vector3(a[0], a[1], a[2]);
     let b_vec  = new THREE.Vector3(b[0], b[1], b[2]);
@@ -975,8 +984,17 @@ export function z_up_set_object_rotation_from_axis_angle(object3D, x, y, z, angl
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+export function convert_2array_to_3array(array) {
+    if(array.length === 3) { return array; }
+    else { return [array[0], array[1], 0] }
+}
+
 export function convert_array_to_threejs_vector3(array) {
-    return new THREE.Vector3(array[0], array[1], array[2]);
+    if(array.length === 2) {
+        return new THREE.Vector3(array[0], array[1], 0);
+    } else {
+        return new THREE.Vector3(array[0], array[1], array[2]);
+    }
 }
 
 export function convert_threejs_vector3_to_array(vector3) {

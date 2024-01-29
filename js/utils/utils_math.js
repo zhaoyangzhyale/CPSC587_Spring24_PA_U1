@@ -283,6 +283,36 @@ export function dot_product_unrolled(v1, v2) {
     return dot_product;
 }
 
+export function add_complex_numbers(z1, z2) {
+    z1 = unroll_matrix_to_list(z1);
+    z2 = unroll_matrix_to_list(z2);
+
+    let a1 = z1[0];
+    let a2 = z2[0];
+    let b1 = z1[1];
+    let b2 = z2[1];
+
+    let new_real_part = a1 + a2;
+    let new_im_part = b1 + b2;
+
+    return [new_real_part, new_im_part];
+}
+
+export function mul_complex_numbers(z1, z2) {
+    z1 = unroll_matrix_to_list(z1);
+    z2 = unroll_matrix_to_list(z2);
+
+    let a1 = z1[0];
+    let a2 = z2[0];
+    let b1 = z1[1];
+    let b2 = z2[1];
+
+    let new_real_part = a1*a2 - b1*b2;
+    let new_im_part = a1*b2 + a2*b1;
+
+    return [new_real_part, new_im_part];
+}
+
 export function unroll_matrix_to_list(matrix) {
     if (!Array.isArray(matrix[0])) {
         return matrix;
