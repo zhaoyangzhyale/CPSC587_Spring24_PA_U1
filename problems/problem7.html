@@ -114,13 +114,16 @@
         // todo: that are made by multiplying m by all the points in these respective lists.
 
 
+        // todo: uncomment these lines after you've computed new_standard_points and new_wireframe_points
+        // engine.update_vertex_positions_of_mesh_object(0, new_standard_points);
+        // engine.update_vertex_positions_of_mesh_object_wireframe(0, new_wireframe_points);
+
         if (settings.draw_points) {
             // todo: draw debug spheres centered at all points in new_standard_points with the radius settings.point_size and color 0xeeee00.
 
 
         }
-
-
+        
         engine.mesh_objects[0].visible = settings.mesh_visible;
         engine.set_mesh_object_wireframe_visibility(0, settings.wireframe_visible);
     });
