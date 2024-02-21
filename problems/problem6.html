@@ -29,6 +29,27 @@
     // todo: as it revolves around the center as well.  All optional parameters for the vector can be left as the default.
     // todo: note that sin and cosine in javascript can be called using Math.sin() and Math.cos()
 
+    let engine = ThreeEngine.new_default_2d();
+
+    engine.animation_loop(function() {
+        let time = engine.get_time_elapsed()
+        let x = Math.cos(time * 2 * Math.PI);
+        let y = Math.sin(time * 2 * Math.PI);
+        
+        engine.draw_debug_sphere(
+            [x, y, 0],
+            0.05,
+            0x000000,
+            1.0
+        )
+
+        engine.draw_debug_vector(
+            [0, 0, 0],
+            [x, y, 0]
+        )
+    });
+
+
 </script>
 </body>
 </html>

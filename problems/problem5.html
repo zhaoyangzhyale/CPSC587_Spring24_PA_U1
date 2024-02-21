@@ -26,6 +26,21 @@
     // todo: draw a vector in a 3D ThreeEngine scene with a start point of [0,0,0], an end point of [1,1,0],
     // todo: tail width of 0.01, arrow height of 0.15, a color of 0x000000, and an opacity of 0.9
 
+
+    let engine = ThreeEngine.new_default_3d();
+
+    engine.draw_debug_vector(
+        [0, 0, 0],
+        [1, 1, 0],
+        0.01,
+        0.15,
+        0x000000,
+        0.9
+    )
+
+    engine.animation_loop(function() { });
+
+
 </script>
 </body>
 </html>

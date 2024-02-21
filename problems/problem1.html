@@ -23,10 +23,13 @@
 <script type="module">
     import {print_var_to_document} from "../js/utils/utils_general.js";
 
-    // todo: use a forEach loop on this array to calculate the factorial 10!
+    // todo: use a forEach loop on this array to calculate the result 10!
     // todo: then print the answer to the document using print_var_to_document
     let a = [1,2,3,4,5,6,7,8,9,10];
-
+    
+    let result = 1;
+    a.forEach(function(x) {result *= x;});
+    print_var_to_document(result);
 </script>
 </body>
 </html>

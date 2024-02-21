@@ -22,6 +22,7 @@
 <body>
 <script type="module">
     import {ThreeEngine, get_default_lil_gui, reset_displays} from "../js/utils/utils_three.js";
+    import {print_var_to_document} from "../js/utils/utils_general.js";
 
     // todo: the goal here is to recreate the second visualization in Section 1.2: Mappings over Points
 
@@ -103,8 +104,14 @@
     // [m10],
     // [m20]
     // ]
-    function multiply_3x3_matrix_and_3x1_vector(matrix, vector) {
+    function multiply_3x3_matrix_and_3x1_vector(m, vector) {
         // todo: implement this function!
+        let x = m[0][0] * vector[0][0] + m[0][1] * vector[1][0] + m[0][2] * vector[2][0];
+        let y = m[1][0] * vector[0][0] + m[1][1] * vector[1][0] + m[1][2] * vector[2][0];
+        let z = m[2][0] * vector[0][0] + m[2][1] * vector[1][0] + m[2][2] * vector[2][0];
+        
+        return [[x], [y], [z]];
+        //return vector
     }
 
     engine.animation_loop(() => {
@@ -112,18 +119,21 @@
 
         // todo: use your new multiply_3x3_matrix_and_3x1_vector and a map function to get new_standard_points and new_wireframe_points variables
         // todo: that are made by multiplying m by all the points in these respective lists.
-
+        let new_standard_points = standard_points.map(x => multiply_3x3_matrix_and_3x1_vector(m, x));
+        let new_wireframe_points = wireframe_points.map(function(x) {return multiply_3x3_matrix_and_3x1_vector(m, x);});
 
         // todo: uncomment these lines after you've computed new_standard_points and new_wireframe_points
-        // engine.update_vertex_positions_of_mesh_object(0, new_standard_points);
-        // engine.update_vertex_positions_of_mesh_object_wireframe(0, new_wireframe_points);
+        engine.update_vertex_positions_of_mesh_object(0, new_standard_points);
+        engine.update_vertex_positions_of_mesh_object_wireframe(0, new_wireframe_points);
 
         if (settings.draw_points) {
             // todo: draw debug spheres centered at all points in new_standard_points with the radius settings.point_size and color 0xeeee00.
-
+            new_standard_points.forEach(x =>
+                engine.draw_debug_sphere(x, settings.point_size, 0xeeee00)
+            )
 
         }
-
+        
         engine.mesh_objects[0].visible = settings.mesh_visible;
         engine.set_mesh_object_wireframe_visibility(0, settings.wireframe_visible);
     });

@@ -26,6 +26,20 @@
     // todo: draw a line segment in a 3D ThreeEngine scene with a start point of [-1,-1,1], an end point of [1,1,1],
     // todo: not rendering through other objects, a width of 0.01, a color of 0x000000, and an opacity of 0.9
 
+    let engine = ThreeEngine.new_default_3d();
+
+    engine.draw_debug_line(
+        [-1, -1, -1],
+        [1, 1, 1],
+        false,
+        0.01,
+        0x000000,
+        0.9
+    );
+
+    engine.animation_loop(function() { });
+
+
 </script>
 </body>
 </html>

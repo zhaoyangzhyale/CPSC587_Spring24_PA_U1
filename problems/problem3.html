@@ -25,6 +25,11 @@
 
     // todo: draw a sphere in a 3D ThreeEngine scene at the point [1,1,1] with radius 0.1, color 0x00eeff, and opacity 0.7
 
+    let engine = ThreeEngine.new_default_3d();
+
+    engine.draw_debug_sphere([1, 1, 1], 0.1, 0x00eeff, 0.7);
+    engine.animation_loop(function() { });
+
 </script>
 </body>
 </html>
